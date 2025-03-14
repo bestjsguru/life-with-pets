@@ -25,5 +25,19 @@ export default function useAuth() {
     }
   };
 
-  return { user, setUser, loggedIn, handleLogin, loading, error };
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        `${API_BASE}/auth/logout`,
+        {},
+        { withCredentials: true }
+      );
+      setLoggedIn(false);
+      setUser({ name: "", email: "" });
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
+  };
+
+  return { user, setUser, loggedIn, handleLogin, handleLogout, loading, error };
 }

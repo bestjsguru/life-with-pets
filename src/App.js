@@ -3,11 +3,12 @@ import DogList from "./components/DogList";
 import MatchModal from "./components/MatchModal";
 import Filters from "./components/Filters";
 import Pagination from "./components/Pagination";
+import Header from "./components/Header";
 import useDogs from "./hooks/useDogs";
 import useAuth from "./hooks/useAuth";
 
 export default function App() {
-  const { user, setUser, loggedIn, handleLogin } = useAuth();
+  const { user, setUser, loggedIn, handleLogin, handleLogout } = useAuth();
   const {
     dogs,
     breeds,
@@ -21,18 +22,28 @@ export default function App() {
     matchDog,
     setMatchDog,
     loading,
+    processing,
     page,
     setPage,
     totalPages,
   } = useDogs(loggedIn);
 
   return (
-    <div className="p-6 min-h-screen bg-gray-100">
+    <div
+      className="min-h-screen bg-gray-100 bg-no-repeat bg-cover bg-center"
+      style={{
+        backgroundImage: loggedIn
+          ? "none"
+          : `url('${process.env.PUBLIC_URL}/images/bgdogs.jpg')`,
+      }}
+    >
+      <Header loggedIn={loggedIn} handleLogout={handleLogout} />
+
       {!loggedIn ? (
         <Login user={user} setUser={setUser} handleLogin={handleLogin} />
       ) : (
-        <div>
-          <div className="mb-4 flex items-center">
+        <div className="p-4">
+          <div className="mb-3 gap-2 flex flex-col md:flex-row items-center">
             <Filters
               breeds={breeds}
               selectedBreed={selectedBreed}
@@ -42,22 +53,29 @@ export default function App() {
             />
             {favorites.length > 0 && (
               <button
-                className="ml-4 p-2 bg-blue-600 text-white"
+                className="p-2 bg-blue-600 rounded text-white min-w-[200px]"
                 onClick={generateMatch}
+                disabled={processing}
               >
-                Find Your Match
+                {processing ? "Generating now..." : "Find Your Match"}
               </button>
             )}
           </div>
-          <>
+          <div
+            className={`${
+              favorites.length > 0
+                ? "max-h-[calc(100vh-268px)]"
+                : "max-h-[calc(100vh-220px)]"
+            } lg:max-h-[calc(100vh-220px)] overflow-auto`}
+          >
             <DogList
               loading={loading}
               dogs={dogs}
               favorites={favorites}
               toggleFavorite={toggleFavorite}
             />
-            <Pagination page={page} totalPages={totalPages} setPage={setPage} />
-          </>
+          </div>
+          <Pagination page={page} totalPages={totalPages} setPage={setPage} />
         </div>
       )}
       {matchDog && <MatchModal matchDog={matchDog} setMatchDog={setMatchDog} />}

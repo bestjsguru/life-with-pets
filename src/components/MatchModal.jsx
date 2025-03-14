@@ -13,7 +13,7 @@ export default function MatchModal({ matchDog, setMatchDog }) {
             src={errorLoading ? fallbackImage : matchDog.img}
             alt={matchDog.name}
             loading="lazy"
-            className={`w-full min-w-[380px] max-w-[100%] h-[250px] object-cover rounded transition-opacity duration-500 ${
+            className={`w-full min-w-[300px] lg:min-w-[500px] max-w-[100%] h-[250px] object-cover rounded transition-opacity duration-500 ${
               imageLoaded ? "opacity-100" : "opacity-0"
             }`}
             onLoad={() => setImageLoaded(true)}

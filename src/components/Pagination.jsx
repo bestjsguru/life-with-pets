@@ -13,16 +13,16 @@ export default function Pagination({ page, totalPages, setPage }) {
   }
 
   return (
-    <div className="mt-4 flex justify-center space-x-2">
+    <div className="mt-4 flex justify-center md:spance-x-2 space-x-1">
       <button
         className="p-2 bg-gray-500 text-white rounded"
         disabled={page === 0}
         onClick={() => setPage(page - 1)}
       >
-        Previous
+        {'<'}
       </button>
       {startPage > 0 && (
-        <span className="p-2 bg-gray-300 text-white rounded">...</span>
+        <span className="p-1 md:p-2 bg-gray-300 text-white rounded">...</span>
       )}
 
       {pages.map((p, index) => (
@@ -33,11 +33,13 @@ export default function Pagination({ page, totalPages, setPage }) {
           } text-white rounded`}
           onClick={() => typeof p === "number" && setPage(p)}
         >
-          {p + 1}
+          <span className="hidden md:block">
+            {p + 1}
+          </span>
         </button>
       ))}
       {endPage < totalPages - 1 && (
-        <span className="p-2 bg-gray-300 text-white rounded">...</span>
+        <span className="p-1 md:p-2 bg-gray-300 text-white rounded">...</span>
       )}
 
       <button
@@ -45,7 +47,7 @@ export default function Pagination({ page, totalPages, setPage }) {
         disabled={page === totalPages - 1}
         onClick={() => setPage(page + 1)}
       >
-        Next
+        {'>'}
       </button>
     </div>
   );

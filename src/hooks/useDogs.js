@@ -13,6 +13,7 @@ export default function useDogs(loggedIn) {
   const [totalPages, setTotalPages] = useState(1);
   const [matchDog, setMatchDog] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [processing, setProcessing] = useState(false);
 
   useEffect(() => {
     if (loggedIn) {
@@ -20,6 +21,17 @@ export default function useDogs(loggedIn) {
       fetchDogs();
     }
   }, [loggedIn, selectedBreed, sortOrder, page]);
+
+  useEffect(() => {
+    setPage(0);
+  }, [selectedBreed, sortOrder]);
+
+  useEffect(() => {
+    setPage(0);
+    setBreeds([]);
+    setFavorites([]);
+    setMatchDog(null);
+  }, [loggedIn]);
 
   const fetchBreeds = async () => {
     try {
@@ -75,6 +87,7 @@ export default function useDogs(loggedIn) {
 
   const generateMatch = async () => {
     try {
+      setProcessing(true)
       const response = await axios.post(`${API_BASE}/dogs/match`, favorites, {
         withCredentials: true,
       });
@@ -85,6 +98,8 @@ export default function useDogs(loggedIn) {
       setMatchDog(matchResponse.data[0]);
     } catch (error) {
       console.error("Error generating match", error);
+    }finally {
+      setProcessing(false);
     }
   };
 
@@ -101,6 +116,7 @@ export default function useDogs(loggedIn) {
     matchDog,
     setMatchDog,
     loading,
+    processing,
     page,
     setPage,
     totalPages,

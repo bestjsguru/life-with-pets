@@ -6,9 +6,9 @@ export default function Filters({
   setSortOrder,
 }) {
   return (
-    <div className="flex space-x-4">
+    <div className="flex space-x-2">
       <select
-        className="p-2 border rounded"
+        className="max-w-[200px] md:max-w-none p-2 border rounded"
         value={selectedBreed}
         onChange={(e) => setSelectedBreed(e.target.value)}
       >
@@ -23,7 +23,7 @@ export default function Filters({
         className="p-2 bg-gray-500 text-white rounded"
         onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
       >
-        Sort: {sortOrder === "asc" ? "Ascending" : "Descending"}
+        Sort: {sortOrder === "asc" ? "ASC" : "DES"}
       </button>
     </div>
   );

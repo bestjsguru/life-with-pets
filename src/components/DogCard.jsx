@@ -14,15 +14,15 @@ export default function DogCard({
 
   return (
     <div className="p-4 bg-white rounded-xl shadow-md">
-      <div className="w-full h-[250px] bg-gray-300 rounded relative overflow-hidden">
+      <div className="w-full h-[200px] bg-gray-300 rounded relative overflow-hidden">
         {loading ? (
-          <Skeleton className="w-full h-[250px]" />
+          <Skeleton className="w-full h-[200px]" />
         ) : (
           <img
             src={errorLoading ? fallbackImage : dog.img}
             alt={dog.name}
             loading="lazy"
-            className={`w-full h-[250px] object-cover rounded transition-opacity duration-500 ${
+            className={`w-full h-[200px] object-cover rounded transition-opacity duration-500 ${
               imageLoaded ? "opacity-100" : "opacity-0"
             }`}
             onLoad={() => setImageLoaded(true)}
@@ -45,7 +45,7 @@ export default function DogCard({
           <button
             className={`mt-2 p-2 w-full ${
               isFavorite ? "bg-red-500" : "bg-green-500"
-            } text-white transition duration-300`}
+            } text-white rounded transition duration-300`}
             onClick={() => toggleFavorite(dog.id)}
           >
             {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
